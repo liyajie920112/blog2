@@ -2,11 +2,18 @@ const navMetadata = [{
   text: 'Blog',
   link: '/blog/',
   sideDirList: [{
-    title: '面试',
-    dir: '/blog/interview'
+    title: 'MapboxGl',
+    dir: '/blog/mapbox'
   }, {
-    title: 'JS基础',
-    dir: '/blog/js'
+    title: '面试题',
+    dir: '/blog/interview'
+  }]
+}, {
+  text: 'CSS',
+  link: '/css/',
+  sideDirList: [{
+    title: 'CSS基础',
+    dir: '/css/basis'
   }]
 }]
 
@@ -14,6 +21,8 @@ const nav = navMetadata.map(a => ({
   text: a.text,
   link: a.link
 }))
+
+console.log('nav', nav)
 
 module.exports = {
   nav,
