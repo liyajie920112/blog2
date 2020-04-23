@@ -1,22 +1,40 @@
-module.exports = {
+const { readdirSync } = require('fs')
+const { resolve } = require('path')
+const { nav, navMetadata } = require('./utils/nav')
+module.exports = ctx => ({
   title: 'LiYajie',
   description: 'LiYajie技术小栈',
   themeConfig: {
-    sidebar: 'auto',
-    nav: [{
-      text: 'Home', link: '/'
-    }, {
-      text: 'Blog', link: '/blog/'
-    }],
-    sidebar: [{
-      title: '面试',
-      // path: '/blog/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-      collapsable: true, // 可选的, 默认值是 true,
-      sidebarDepth: 1,    // 可选的, 默认值是 1
-      children: [
-        '/blog/interview/'
-      ]
-    }],
-    smoothScroll: true
+    locales: {
+      '/': {
+        nav: [{
+          text: 'Home', link: '/'
+        }, ...nav],
+        sidebar: getSidebar(),
+        smoothScroll: true
+      }
+    }
   }
+})
+
+function getSidebarChildren(dir) {
+  return readdirSync(resolve(__dirname, '..' + dir))
+    .map(filename => dir + '/' + filename.slice(0, -3))
+    .sort()
+}
+
+function getSidebar() {
+  const sidebar = {}
+  navMetadata.forEach(item => {
+    const s = item.sideDirList.map(side => {
+      return {
+        title: side.title,
+        collapsable: true, // 可选的, 默认值是 true,
+        sidebarDepth: 1,    // 可选的, 默认值是 1
+        children: getSidebarChildren(side.dir)
+      }
+    })
+    sidebar[item.link] = s
+  })
+  return sidebar
 }
