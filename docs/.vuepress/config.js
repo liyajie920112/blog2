@@ -20,6 +20,7 @@ module.exports = ctx => ({
 
 function getSidebarChildren(dir) {
   return readdirSync(resolve(__dirname, '..' + dir))
+    .filter(a => a.endsWith('.md'))
     .map(filename => dir + '/' + filename.slice(0, -3))
     .sort()
 }
