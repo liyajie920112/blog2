@@ -15,7 +15,7 @@ const navMetadata = [{
   text: 'CSS',
   link: '/css/',
   sideDirList: [{
-    title: 'CSS基础',
+    title: 'CSS',
     dir: '/css/basis'
   }]
 }]
