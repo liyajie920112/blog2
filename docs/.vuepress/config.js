@@ -2,6 +2,7 @@ const { readdirSync } = require('fs')
 const { resolve } = require('path')
 const { nav, navMetadata } = require('./utils/nav')
 module.exports = ctx => ({
+  dest: 'dist',
   title: 'LiYajie',
   description: 'LiYajie技术小栈',
   themeConfig: {
