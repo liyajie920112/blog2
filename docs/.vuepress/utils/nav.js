@@ -7,6 +7,9 @@ const navMetadata = [{
   }, {
     title: '面试题',
     dir: '/blog/interview'
+  }, {
+    title: '文章',
+    dir: '/blog/article'
   }]
 }, {
   text: 'CSS',
