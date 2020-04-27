@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/liyajie920112/blog2#readme",
   "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.4.1",
+    "@vuepress/plugin-google-analytics": "^1.4.1",
     "vuepress": "^1.4.1"
   }
 }

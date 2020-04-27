@@ -2,21 +2,21 @@ const navMetadata = [{
   text: 'Blog',
   link: '/blog/',
   sideDirList: [{
-    title: 'MapboxGl',
+    title: '随笔',
+    dir: '/blog/article'
+  }, {
+    title: 'mapbox-gl',
     dir: '/blog/mapbox'
   }, {
     title: '面试题',
     dir: '/blog/interview'
-  }, {
-    title: '文章',
-    dir: '/blog/article'
   }]
 }, {
-  text: 'CSS',
-  link: '/css/',
+  text: '每日随笔',
+  link: '/diary/',
   sideDirList: [{
-    title: 'CSS',
-    dir: '/css/basis'
+    title: '2020/04',
+    dir: '/diary/2020-04'
   }]
 }]
 

@@ -146,7 +146,7 @@ export default {
     bottom 0
     left 0
     width 100%
-    padding 2.5rem
+    padding 2.5rem 0
     border-top 1px solid $borderColor
     text-align center
     color lighten($textColor, 25%)

@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /images/logo.jpg
+heroImage: /images/hero.jpg
 heroText: 🐌蜗牛的小栈
 tagline: null
 actionText: Let's go →
