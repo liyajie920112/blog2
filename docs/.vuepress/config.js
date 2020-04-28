@@ -1,29 +1,32 @@
 const { readdirSync } = require('fs')
 const { resolve } = require('path')
 const { nav, navMetadata } = require('./utils/nav')
-module.exports = ctx => ({
-  dest: 'dist',
-  title: 'LiYajie',
-  description: 'LiYajie技术小栈',
-  themeConfig: {
-    logo: '/images/logo.jpg',
-    locales: {
-      '/': {
-        nav: [{
-          text: 'Home', link: '/'
-        }, ...nav],
-        sidebar: getSidebar(),
-        smoothScroll: true
+module.exports = ctx => {
+  return {
+    dest: 'dist',
+    title: 'LiYajie',
+    description: 'LiYajie技术小栈',
+    themeConfig: {
+      logo: '/images/logo.jpg',
+      locales: {
+        '/': {
+          nav: [{
+            text: 'Home', link: '/'
+          }, ...nav],
+          sidebar: getSidebar(ctx.pages),
+          smoothScroll: true
+        }
       }
-    }
-  },
-  plugins: [
-    ['@vuepress/back-to-top'],
-    ['@vuepress/google-analytics', {
-      ga: 'UA-152052026-1'
-    }],
-  ]
-})
+    },
+    plugins: [
+      ['@vuepress/back-to-top'],
+      ['@vuepress/google-analytics', {
+        ga: 'UA-152052026-1'
+      }],
+    ]
+  }
+}
+
 
 function getSidebarChildren(dir) {
   return readdirSync(resolve(__dirname, '..' + dir))
@@ -41,7 +44,7 @@ function getDirArticles(dir) {
     .sort()
 }
 
-function getSidebar() {
+function getSidebar(pages) {
   const sidebar = {}
   navMetadata.forEach(item => {
     if (item.sideDirList) {

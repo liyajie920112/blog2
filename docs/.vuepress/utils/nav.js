@@ -25,8 +25,6 @@ const nav = navMetadata.map(a => ({
   link: a.link
 }))
 
-console.log('nav', nav)
-
 module.exports = {
   nav,
   navMetadata
