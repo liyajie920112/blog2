@@ -15,9 +15,6 @@ export default {
     pages() {
       return this.$site.pages.filter(a => a.path.startsWith(this.page.path) && a.path !== this.page.path)
     }
-  },
-  mounted() {
-    console.log('t', this)
   }
 }
 </script>
