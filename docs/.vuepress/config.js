@@ -6,6 +6,16 @@ module.exports = ctx => {
     dest: 'dist',
     title: 'LiYajie',
     description: 'LiYajie技术小栈',
+    head: [[
+      'script', {}, `
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?58532f8aaba138eae7c4d174e4c89665";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();`
+    ]],
     themeConfig: {
       logo: '/images/logo.jpg',
       locales: {
