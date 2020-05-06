@@ -10,6 +10,10 @@
 input和textarea的区别是: input会把复制的内容在一行内显示, textarea: 会保留换行, 比如我们要复制一段代码的时候可能就需要保留换行格式, 所以这个时候就需要使用`textarea`
 :::
 
+:::tip
+如下代码块左上角的`copy`就是使用该功能实现的
+:::
+
 ```js
 function copyTextToClipboard(text) {
   const input = document.createElement('input')
