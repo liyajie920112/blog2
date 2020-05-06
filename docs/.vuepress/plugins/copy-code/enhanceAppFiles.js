@@ -1,7 +1,7 @@
 const copyTextStyle = {
   position: 'absolute',
   left: '10px',
-  top: '0.8em',
+  top: '0.5em',
   color: 'rgba(255, 255, 255, 0.4)',
   fontSize: '0.75rem',
   cursor: 'pointer',
