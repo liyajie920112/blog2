@@ -12,6 +12,9 @@ const navMetadata = [{
     dir: '/blog/interview'
   }]
 }, {
+  text: 'TypeScript',
+  link: '/typescript/'
+}, {
   text: '每日随笔',
   link: '/diary/',
   sideDirList: [{

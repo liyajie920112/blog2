@@ -1,6 +1,7 @@
 const { readdirSync } = require('fs')
 const { resolve } = require('path')
 const { nav, navMetadata } = require('./utils/nav')
+const copyCodePlugin = require('./plugins/copy-code/index')
 module.exports = ctx => {
   return {
     dest: 'dist',
@@ -29,6 +30,7 @@ module.exports = ctx => {
       }
     },
     plugins: [
+      [copyCodePlugin],
       ['@vuepress/back-to-top'],
       ['@vuepress/google-analytics', {
         ga: 'UA-152052026-1'
