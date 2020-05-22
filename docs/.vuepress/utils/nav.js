@@ -17,6 +17,9 @@ const navMetadata = [{
   sideDirList: [{
     title: '2020/04',
     dir: '/diary/2020-04'
+  }, {
+    title: '2020/05',
+    dir: '/diary/2020-05'
   }]
 }]
 
