@@ -70,11 +70,8 @@ function calcCenterVertexPoint (start, end) {
   const centerY1 = y1 + yHalf
   const center = [centerX1, centerY1]
   console.log(center)
-
   const xieLen = Math.sqrt(Math.pow(xHalf, 2) + Math.pow(yHalf, 2))
-
   const xieDui = xieLen * Math.tan(Math.PI * deg / 180)
-
   const xOffset = (xieDui / xieLen) * yHalf
   const yOffset = (xieDui / xieLen) * xHalf
 
