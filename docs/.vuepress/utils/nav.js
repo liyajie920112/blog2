@@ -23,6 +23,9 @@ const navMetadata = [{
   }, {
     title: '2020/05',
     dir: '/diary/2020-05'
+  }, {
+    title: '2020/06',
+    dir: '/diary/2020-06'
   }]
 }]
 
