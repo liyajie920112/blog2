@@ -1,5 +1,5 @@
 {
-  "name": "blog2",
+  "name": "liyajie-blog",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/liyajie920112/blog2#readme",
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.4.1",
-    "@vuepress/plugin-google-analytics": "^1.4.1",
-    "vuepress": "^1.4.1"
+    "@vuepress/plugin-back-to-top": "1.5.0",
+    "@vuepress/plugin-google-analytics": "1.5.0",
+    "vuepress": "1.5.0"
   }
 }
