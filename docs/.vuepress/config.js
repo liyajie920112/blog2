@@ -4,6 +4,7 @@ const { nav, navMetadata } = require('./utils/nav')
 const copyCodePlugin = require('./plugins/copy-code/index')
 module.exports = ctx => {
   return {
+    base: '/',
     dest: 'dist',
     title: 'LiYajie',
     description: 'LiYajie技术小栈',

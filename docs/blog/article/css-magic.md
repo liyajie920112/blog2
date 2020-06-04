@@ -70,40 +70,40 @@
 ## 02. 恒定宽高比
 
 ```html
-<div class="constant"></div>
+<div class="css-magic-constant"></div>
 ```
 
 ```css
-.constant {
+.css-magic-constant {
     background-color: #0094ff;
     width: 50%;
 }
-.constant::before {
+.css-magic-constant::before {
     content: '';
     padding-top:100%;
     float: left;
 }
-.constant::after {
+.css-magic-constant::after {
     content: '';
     display: block;
     clear: both;
 }
 ```
 
-<div class="constant">
+<div class="css-magic-constant">
 </div>
 
 <style>
-.constant {
+.css-magic-constant {
     background-color: #0094ff;
     width: 50%;
 }
-.constant::before {
+.css-magic-constant::before {
     content: '';
     padding-top:100%;
     float: left;
 }
-.constant::after {
+.css-magic-constant::after {
     content: '';
     display: block;
     clear: both;
