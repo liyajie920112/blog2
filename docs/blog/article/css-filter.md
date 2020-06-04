@@ -174,5 +174,25 @@ filter: none
 
 > 除了svg feColorMatrix这种方式很有很对方式设置滤镜
 
+### 设置元素对比度滤镜
+
+:::tip
+只需要设置`<feFuncR>, <feFuncG>, <feFuncB>`这三个标签的`exponent`属性的值即可
+:::
+
+```html
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
+    <defs>
+        <filter x="0" y="0" width="99999" height="99999" id="highcontrast">
+            <feComponentTransfer>
+                <feFuncR type="gamma" exponent="1" class="rgb"></fefuncr>
+                <feFuncG type="gamma" exponent="1" class="rgb"></fefuncg>
+                <feFuncB type="gamma" exponent="1" class="rgb"></fefuncb>
+            </feComponentTransfer>
+        </filter>
+    </defs>
+</svg>
+```
+
 其他方式, 大家可以研究下SVG
 
