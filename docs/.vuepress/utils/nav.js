@@ -15,6 +15,9 @@ const navMetadata = [{
   text: 'TypeScript',
   link: '/typescript/'
 }, {
+  text: 'Vue',
+  link: '/vue/'
+}, {
   text: '每日随笔',
   link: '/diary/',
   sideDirList: [{
