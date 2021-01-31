@@ -1,3 +1,8 @@
+---
+tags:
+  - js
+  - css
+---
 # 复制内容到剪贴板功能
 
 1. 创建textarea/input
@@ -5,6 +10,8 @@
 3. 将textarea/input添加到body
 4. 执行copy命令
 5. 移除textarea/input标签
+
+<!-- more -->
 
 :::warning 注意
 input和textarea的区别是: input会把复制的内容在一行内显示, textarea: 会保留换行, 比如我们要复制一段代码的时候可能就需要保留换行格式, 所以这个时候就需要使用`textarea`

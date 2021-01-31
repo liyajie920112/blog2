@@ -2,6 +2,7 @@ const { readdirSync } = require('fs')
 const { resolve } = require('path')
 const { nav, navMetadata } = require('./utils/nav')
 const copyCodePlugin = require('./plugins/copy-code/index')
+const pageTagsPlugin = require('./plugins/page-tags/index')
 module.exports = ctx => {
   return {
     base: '/',
@@ -24,14 +25,18 @@ module.exports = ctx => {
         '/': {
           nav: [{
             text: 'Home', link: '/'
+          }, {
+            text: 'Tags',
+            link: '/tags/'
           }, ...nav],
           sidebar: getSidebar(ctx.pages),
           smoothScroll: true
-        }
-      }
+        },
+      },
     },
     plugins: [
       [copyCodePlugin],
+      [pageTagsPlugin],
       ['@vuepress/back-to-top'],
       ['@vuepress/google-analytics', {
         ga: 'UA-152052026-1'

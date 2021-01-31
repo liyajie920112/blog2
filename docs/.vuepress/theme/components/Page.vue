@@ -2,6 +2,7 @@
   <main class="page">
     <slot name="top" />
     <article class="theme-default-content">
+      <slot name="content-top" />
       <Content />
       <NavHeader />
     </article>
@@ -20,7 +21,7 @@ import NavHeader from '@theme/components/NavHeader.vue'
 
 export default {
   components: { PageEdit, PageNav, NavHeader },
-  props: ['sidebarItems']
+  props: ['sidebarItems'],
 }
 </script>
 
