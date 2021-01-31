@@ -2,6 +2,7 @@
 author: LiYajie
 tags:
   - h5
+  - js
 ---
 
 # h5判断网络状态
@@ -15,6 +16,7 @@ if (navigator.onLine) {
   alert('断网了')
 }
 ```
+<!-- more -->
 
 ## h5添加监听网络变化
 

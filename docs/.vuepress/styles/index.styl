@@ -3,25 +3,19 @@
     border-radius 50%
 
 .tags-wrapper
-    .tags-item
-      padding 4px 10px
-      margin-right 15px
-      border-radius 2px
-      color #fff
-      cursor pointer
-      background-color $accentColor
-      &.active
-        position relative
-        &::after
-          position absolute
-          content ''
-          bottom -8px
-          left 50%
-          width 6px
-          height 6px
-          margin-left -3px
-          background-color $accentColor
-          border-radius 50%
+  font-size 0
+  .tags-item
+    display inline-block
+    padding 4px 10px
+    margin-right 15px
+    border-radius 2px
+    color #fff
+    cursor pointer
+    background-color $accentColor
+    font-size 16px
+    margin-bottom 10px
+    transition all .3s;
+    box-sizing border-box
 .article-list
   .article
     margin-top 20px
@@ -29,12 +23,20 @@
     padding 20px
     border-bottom 1px solid #f8f8f8
     box-shadow 0 0 10px #eee
+    .article-title
+      display block
+      margin-bottom 10px
+      font-size 18px
+    .article-excerpt
+      h1
+        display none
     .more
       text-align right
-    div, h1, h2, h3
+    h1, h2, h3
       margin 0
       padding 0
       font-size 14px
     h1
+      margin-bottom 5px
       font-size 16px
       color $accentColor

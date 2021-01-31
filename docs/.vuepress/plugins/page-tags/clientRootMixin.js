@@ -16,6 +16,7 @@ export default {
       let tags1 = new Tags({
         propsData: {
           tags: _tags,
+          $router: this.$router
         },
       })
       tags1.$mount()

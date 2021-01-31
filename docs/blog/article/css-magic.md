@@ -1,5 +1,8 @@
+---
+tags:
+    - css
+---
 # CSS魔法
-
 ## 01. CSS loading...
 
 ```html
@@ -9,6 +12,8 @@
     <div></div>
 </div>
 ```
+
+<!-- more -->
 
 ```css
 @keyframes loading-animate {
@@ -42,6 +47,7 @@
     <div></div>
 </div>
 <style>
+
 @keyframes loading-animate {
     to {
         opacity: 0.1;

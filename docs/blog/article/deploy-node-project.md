@@ -1,3 +1,9 @@
+---
+tags: 
+    - nodejs
+    - centos
+---
+
 # Centos安装部署Nodejs项目
 
 ## Centos需要安装的软件
@@ -8,6 +14,8 @@
 安装nodejs我习惯使用nvm, 因为这样可以对nodejs的版本方便控制
 安装方法[https://github.com/creationix/nvm](https://github.com/creationix/nvm)
 下载完成后加入系统环境 
+
+<!-- more -->
 
 ```bash
 cd ~

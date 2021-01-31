@@ -30,11 +30,14 @@
             @click="clickTag(item)"
             class="tags-item"
             :class="{ active: tag.tagv === item.tagv }"
-            :style="{ backgroundColor: item.bgc.bg }"
+            :style="{
+              backgroundColor: tag.tagv !== item.tagv ? '#fff' : item.bgc.bg,
+              color: tag.tagv !== item.tagv ? item.bgc.bg : '#fff',
+              border: `1px solid ${item.bgc.bg}`,
+            }"
             v-for="item in tags"
             :key="item.tag"
-            >{{ item.tag }}</span
-          >
+            >{{ item.tag }}</span>
         </div>
         <div class="article-list">
           <div
@@ -43,13 +46,16 @@
             v-for="item in list"
           >
             <template v-if="item.excerpt">
-              <div v-html="item.excerpt"></div>
+              <router-link class="article-title" :to="item.path">{{
+                item.title
+              }}</router-link>
+              <div class="article-excerpt" v-html="item.excerpt"></div>
               ...
-              <div class="more">
-                <router-link :to="item.path">阅读全文</router-link>
-              </div>
             </template>
             <router-link v-else :to="item.path">{{ item.title }}</router-link>
+            <div class="more">
+              <router-link :to="item.path">阅读全文</router-link>
+            </div>
           </div>
         </div>
       </template>
@@ -143,25 +149,21 @@ export default {
       })
       allTags = allTags.join(',').split(',')
       let flatTags = Array.from(new Set(allTags))
-      const ts = flatTags.reduce((res, v) => {
+      let ts = flatTags.reduce((res, v) => {
         let o = {}
-        o.tag = v
+        o.tag = v.toUpperCase()
         o.tagv = v
-        o.number = allTags.filter((value) => value === v).length
+        o.number = allTags.filter(
+          (value) => value.toLowerCase() === v.toLowerCase()
+        ).length
         o.bgc = this.tagBgc()
         res.push(o)
         return res
       }, [])
-      ts.unshift({ tag: '全部', tagv: '', bgc: {} })
+      ts = ts.sort((a, b) => a.tagv.localeCompare(b.tagv))
+      ts.unshift({ tag: '全部', tagv: '', bgc: this.tagBgc() })
       return ts
     },
-  },
-
-  mounted() {
-    this.$router.afterEach(() => {
-      this.isSidebarOpen = false
-    })
-    this.clickTag(this.tags[0])
   },
 
   methods: {
@@ -175,8 +177,14 @@ export default {
       }
     },
 
-    clickTag(item) {
+    clickTag(item, isFirst) {
       //点击标签下面文章显示对应的内容
+      if (item.tagv === this.tag.tagv) {
+        return
+      }
+      if (!isFirst) {
+        this.$router.push({ path: this.$route.path, query: { tag: item.tagv } })
+      }
       this.tag = item
       const pages = this.$site.pages.filter((a) =>
         a.path.startsWith('/blog/article')
@@ -186,7 +194,9 @@ export default {
         : pages.filter((v) => {
             let tags = v.frontmatter.tags
             if (tags) {
-              return tags.some((v) => v === item.tagv)
+              return tags.some(
+                (v) => v.toLowerCase() === item.tagv.toLowerCase()
+              )
             }
           })
     },
@@ -214,6 +224,20 @@ export default {
         }
       }
     },
+  },
+  mounted() {
+    this.$router.afterEach(() => {
+      this.isSidebarOpen = false
+    })
+    const { tag } = this.$route.query
+    if (tag) {
+      const tagObj = this.tags.find(
+        (a) => a.tagv.toLowerCase() === tag.toLowerCase()
+      )
+      this.clickTag(tagObj, true)
+      return
+    }
+    this.clickTag(this.tags[0], true)
   },
 }
 </script>

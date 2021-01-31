@@ -1,2 +1,2 @@
-export default ({ Vue }) => {
+export default ({ Vue, router }) => {
 }

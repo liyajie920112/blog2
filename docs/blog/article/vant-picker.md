@@ -1,3 +1,8 @@
+---
+tags:
+  - vant
+  - js
+---
 # vant picker实现无限级联选择
 
 :::warning 注意
@@ -17,6 +22,8 @@ const citys = {
 };
 // 浙江, 福建为第一列, 对应后面的数据为选中后的第二列
 ```
+
+<!-- more -->
 
 对应的tree.json为[点击这里查看](http://image.liyajie.cn/blog/vant-picker-tree.json)
 

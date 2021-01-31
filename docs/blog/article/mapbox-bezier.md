@@ -1,5 +1,16 @@
+---
+tags:
+  - mapboxjs
+  - js
+---
+
 # mapbox-gl画一条贝塞尔曲线
 
+> 效果如下
+
+![20200603174423](http://image.liyajie.cn/blog/20200603174423.png)
+
+<!-- more -->
 ## 画直线
 
 ```js
@@ -37,10 +48,6 @@ this.map.addLayer({
   }
 })
 ```
-
-> 效果如下
-
-![20200603174423](http://image.liyajie.cn/blog/20200603174423.png)
 
 ## 画贝塞尔曲线
 

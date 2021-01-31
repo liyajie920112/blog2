@@ -1,3 +1,7 @@
+---
+tags:
+  - mongodb
+---
 # Mac通过brew安装mongodb4.2
 
 ## 1. 第一步
@@ -11,6 +15,8 @@ brew tap mongodb/brew
 ```bash
 brew install mongodb-community@4.2
 ```
+
+<!-- more -->
 
 ## 3. 启动数据库服务
 
