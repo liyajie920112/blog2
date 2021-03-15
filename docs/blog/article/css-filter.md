@@ -26,7 +26,7 @@ filter: none
 
 原图如下:
 
-![css-filter01](//image.liyajie.cn/blog/css-filter01.jpg)
+![css-filter01](http://image.liyajie.cn/blog/css-filter01.jpg)
 <style>
 .img1{
     filter: blur(2px);
