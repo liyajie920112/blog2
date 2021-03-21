@@ -4,6 +4,7 @@ const { nav, navMetadata } = require("./utils/nav");
 const copyCodePlugin = require("./plugins/copy-code/index");
 const pageTagsPlugin = require("./plugins/page-tags/index");
 module.exports = (ctx) => {
+  console.log("c", c);
   return {
     base: "/",
     dest: "dist",
@@ -73,7 +74,7 @@ module.exports = (ctx) => {
           owner: "liyajie920112",
           repo: "blog2",
           clientId: "fadb7a4cb5f3e3672f13",
-          clientSecret: "5dc0f136dfbf31e4f01a98a0b18ab507f46e142f",
+          clientSecret: process.env.clientSecret,
         },
       ],
     ],
