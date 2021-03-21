@@ -8,6 +8,7 @@ module.exports = (ctx) => {
     base: "/",
     dest: "dist",
     title: "LiYajie",
+    lang: "zh-CN",
     description: "LiYajie技术小栈",
     head: [
       [
@@ -34,6 +35,7 @@ module.exports = (ctx) => {
       logo: "/images/logo.jpg",
       locales: {
         "/": {
+          lang: "zh-CN",
           nav: [
             {
               text: "Home",
@@ -58,6 +60,20 @@ module.exports = (ctx) => {
         "@vuepress/google-analytics",
         {
           ga: "UA-152052026-1",
+        },
+      ],
+      [
+        "@vssue/vuepress-plugin-vssue",
+        {
+          locale: "zh",
+          // 设置 `platform` 而不是 `api`
+          platform: "github",
+
+          // 其他的 Vssue 配置
+          owner: "liyajie920112",
+          repo: "blog2",
+          clientId: "fadb7a4cb5f3e3672f13",
+          clientSecret: "5dc0f136dfbf31e4f01a98a0b18ab507f46e142f",
         },
       ],
     ],

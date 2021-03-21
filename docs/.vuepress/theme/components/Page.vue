@@ -11,18 +11,23 @@
     <PageNav v-bind="{ sidebarItems }" />
 
     <slot name="bottom" />
+    <div class="page-nav">
+      <ClientOnly>
+        <Vssue />
+      </ClientOnly>
+    </div>
   </main>
 </template>
 
 <script>
-import PageEdit from '@theme/components/PageEdit.vue'
-import PageNav from '@theme/components/PageNav.vue'
-import NavHeader from '@theme/components/NavHeader.vue'
+import PageEdit from "@theme/components/PageEdit.vue";
+import PageNav from "@theme/components/PageNav.vue";
+import NavHeader from "@theme/components/NavHeader.vue";
 
 export default {
   components: { PageEdit, PageNav, NavHeader },
-  props: ['sidebarItems'],
-}
+  props: ["sidebarItems"],
+};
 </script>
 
 <style lang="stylus">
@@ -30,5 +35,4 @@ export default {
 .page
   padding-bottom 2rem
   display block
-
 </style>
