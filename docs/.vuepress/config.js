@@ -33,6 +33,7 @@ module.exports = (ctx) => {
     ],
     themeConfig: {
       logo: "/images/logo.jpg",
+      useUpyun: true,
       locales: {
         "/": {
           lang: "zh-CN",

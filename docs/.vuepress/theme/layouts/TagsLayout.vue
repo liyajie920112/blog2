@@ -37,13 +37,15 @@
             }"
             v-for="item in tags"
             :key="item.tag"
-            >{{ item.tag }}</span>
+            >{{ item.tag }}</span
+          >
         </div>
         <div class="article-list">
           <div
             class="article"
             :style="{ 'box-shadow': `0 0 10px ${tag.bgc.shadow}` }"
             v-for="item in list"
+            :key="item.title"
           >
             <template v-if="item.excerpt">
               <router-link class="article-title" :to="item.path">{{
@@ -67,14 +69,14 @@
 </template>
 
 <script>
-import Page from '../components/Page'
-import Home from '@theme/components/Home.vue'
-import Navbar from '@theme/components/Navbar.vue'
-import Sidebar from '@theme/components/Sidebar.vue'
-import { resolveSidebarItems } from '@vuepress/theme-default/util/index'
+import Page from "../components/Page";
+import Home from "@theme/components/Home.vue";
+import Navbar from "@theme/components/Navbar.vue";
+import Sidebar from "@theme/components/Sidebar.vue";
+import { resolveSidebarItems } from "@vuepress/theme-default/util/index";
 
 export default {
-  name: 'TagsLayout',
+  name: "TagsLayout",
 
   components: {
     Home,
@@ -87,16 +89,16 @@ export default {
     return {
       isSidebarOpen: false,
       list: [],
-      tag: '',
-    }
+      tag: "",
+    };
   },
 
   computed: {
     shouldShowNavbar() {
-      const { themeConfig } = this.$site
-      const { frontmatter } = this.$page
+      const { themeConfig } = this.$site;
+      const { frontmatter } = this.$page;
       if (frontmatter.navbar === false || themeConfig.navbar === false) {
-        return false
+        return false;
       }
       return (
         this.$title ||
@@ -104,16 +106,16 @@ export default {
         themeConfig.repo ||
         themeConfig.nav ||
         this.$themeLocaleConfig.nav
-      )
+      );
     },
 
     shouldShowSidebar() {
-      const { frontmatter } = this.$page
+      const { frontmatter } = this.$page;
       return (
         !frontmatter.home &&
         frontmatter.sidebar !== false &&
         this.sidebarItems.length
-      )
+      );
     },
 
     sidebarItems() {
@@ -122,87 +124,90 @@ export default {
         this.$page.regularPath,
         this.$site,
         this.$localePath
-      )
+      );
     },
 
     pageClasses() {
-      const userPageClass = this.$page.frontmatter.pageClass
+      const userPageClass = this.$page.frontmatter.pageClass;
       return [
         {
-          'no-navbar': !this.shouldShowNavbar,
-          'sidebar-open': this.isSidebarOpen,
-          'no-sidebar': !this.shouldShowSidebar,
+          "no-navbar": !this.shouldShowNavbar,
+          "sidebar-open": this.isSidebarOpen,
+          "no-sidebar": !this.shouldShowSidebar,
         },
         userPageClass,
-      ]
+      ];
     },
 
     tags() {
       //核心代码，整合markdown中tags的数目
-      let allTags = []
+      let allTags = [];
       this.$site.pages.forEach((v) => {
         if (v.frontmatter.tags) {
-          allTags.push(v.frontmatter.tags)
+          allTags.push(v.frontmatter.tags);
         } else if (v.frontmatter.tag) {
-          allTags.push(v.frontmatter.tag)
+          allTags.push(v.frontmatter.tag);
         }
-      })
-      allTags = allTags.join(',').split(',')
-      let flatTags = Array.from(new Set(allTags))
+      });
+      allTags = allTags.join(",").split(",");
+      let flatTags = Array.from(new Set(allTags));
       let ts = flatTags.reduce((res, v) => {
-        let o = {}
-        o.tag = v.toUpperCase()
-        o.tagv = v
+        let o = {};
+        o.tag = v.toUpperCase();
+        o.tagv = v;
         o.number = allTags.filter(
           (value) => value.toLowerCase() === v.toLowerCase()
-        ).length
-        o.bgc = this.tagBgc()
-        res.push(o)
-        return res
-      }, [])
-      ts = ts.sort((a, b) => a.tagv.localeCompare(b.tagv))
-      ts.unshift({ tag: '全部', tagv: '', bgc: this.tagBgc() })
-      return ts
+        ).length;
+        o.bgc = this.tagBgc();
+        res.push(o);
+        return res;
+      }, []);
+      ts = ts.sort((a, b) => a.tagv.localeCompare(b.tagv));
+      ts.unshift({ tag: "全部", tagv: "", bgc: this.tagBgc() });
+      return ts;
     },
   },
 
   methods: {
     tagBgc() {
-      const r = parseInt(Math.random() * 255)
-      const g = 50 + parseInt((Math.random() * 255) / 2)
-      const b = 50 + parseInt((Math.random() * 255) / 2)
+      const r = parseInt(Math.random() * 255);
+      const g = 50 + parseInt((Math.random() * 255) / 2);
+      const b = 50 + parseInt((Math.random() * 255) / 2);
       return {
         bg: `rgb(${r},${g},${b})`,
         shadow: `rgba(${r},${g},${b},.5)`,
-      }
+      };
     },
 
     clickTag(item, isFirst) {
       //点击标签下面文章显示对应的内容
       if (item.tagv === this.tag.tagv) {
-        return
+        return;
       }
       if (!isFirst) {
-        this.$router.push({ path: this.$route.path, query: { tag: item.tagv } })
+        this.$router.push({
+          path: this.$route.path,
+          query: { tag: item.tagv },
+        });
       }
-      this.tag = item
+      this.tag = item;
       const pages = this.$site.pages.filter((a) =>
-        a.path.startsWith('/blog/article')
-      )
+        a.path.startsWith("/blog/article")
+      );
       this.list = !item.tagv
         ? pages
         : pages.filter((v) => {
-            let tags = v.frontmatter.tags
+            let tags = v.frontmatter.tags;
             if (tags) {
               return tags.some(
                 (v) => v.toLowerCase() === item.tagv.toLowerCase()
-              )
+              );
             }
-          })
+          });
     },
     toggleSidebar(to) {
-      this.isSidebarOpen = typeof to === 'boolean' ? to : !this.isSidebarOpen
-      this.$emit('toggle-sidebar', this.isSidebarOpen)
+      this.isSidebarOpen = typeof to === "boolean" ? to : !this.isSidebarOpen;
+      this.$emit("toggle-sidebar", this.isSidebarOpen);
     },
 
     // side swipe
@@ -210,34 +215,34 @@ export default {
       this.touchStart = {
         x: e.changedTouches[0].clientX,
         y: e.changedTouches[0].clientY,
-      }
+      };
     },
 
     onTouchEnd(e) {
-      const dx = e.changedTouches[0].clientX - this.touchStart.x
-      const dy = e.changedTouches[0].clientY - this.touchStart.y
+      const dx = e.changedTouches[0].clientX - this.touchStart.x;
+      const dy = e.changedTouches[0].clientY - this.touchStart.y;
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
         if (dx > 0 && this.touchStart.x <= 80) {
-          this.toggleSidebar(true)
+          this.toggleSidebar(true);
         } else {
-          this.toggleSidebar(false)
+          this.toggleSidebar(false);
         }
       }
     },
   },
   mounted() {
     this.$router.afterEach(() => {
-      this.isSidebarOpen = false
-    })
-    const { tag } = this.$route.query
+      this.isSidebarOpen = false;
+    });
+    const { tag } = this.$route.query;
     if (tag) {
       const tagObj = this.tags.find(
         (a) => a.tagv.toLowerCase() === tag.toLowerCase()
-      )
-      this.clickTag(tagObj, true)
-      return
+      );
+      this.clickTag(tagObj, true);
+      return;
     }
-    this.clickTag(this.tags[0], true)
+    this.clickTag(this.tags[0], true);
   },
-}
+};
 </script>
