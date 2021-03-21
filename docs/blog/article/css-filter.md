@@ -26,7 +26,8 @@ filter: none
 
 原图如下:
 
-![css-filter01](http://image.liyajie.cn/blog/css-filter01.jpg)
+![20210321214247](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png)
+
 <style>
 .img1{
     filter: blur(2px);
@@ -65,7 +66,7 @@ filter: none
     filter:blur(2px);
 }
 ```
-<img class="img1" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img1" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 线性乘法
 
@@ -75,7 +76,7 @@ filter: none
     filter: brightness(70%);
 }
 ```
-<img class="img2" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img2" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 对比度
 
@@ -85,7 +86,7 @@ filter: none
     filter: contrast(0.5);
 }
 ```
-<img class="img3" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img3" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 通过滤镜给图片添加投影
 
@@ -95,7 +96,7 @@ filter: none
     filter: drop-shadow(705px 0 0 #ccc);
 }
 ```
-<img class="img4" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img4" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 色相旋转
 
@@ -105,7 +106,7 @@ filter: none
     filter: hue-route(10deg);
 }
 ```
-<img class="img5" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img5" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 反转输入图像 invert
 
@@ -115,7 +116,7 @@ filter: none
     filter: invert(100%);
 }
 ```
-<img class="img6" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img6" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 将图像转换为灰度图像
 
@@ -125,7 +126,7 @@ filter: none
     filter:grayscale(80%);
 }
 ```
-<img class="img7" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img7" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## 将图像转换为深褐色
 
@@ -136,7 +137,7 @@ filter: none
 }
 ```
 
-<img class="img8" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img8" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 ## url的方式
 
@@ -176,7 +177,7 @@ filter: none
     </defs>
 </svg>
 </div>
-<img class="img9" src="http://image.liyajie.cn/blog/css-filter01.jpg" />
+<img class="img9" src="https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214247.png" />
 
 > 除了svg feColorMatrix这种方式很有很对方式设置滤镜
 
