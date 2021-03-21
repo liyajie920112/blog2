@@ -103,6 +103,32 @@ protected void onNewIntent(Intent intent) {
     }
 }
 
+@Override
+protected void onPause() {
+  super.onPause();
+  NfcAdapter nfcAdapter = getNfcAdapter();
+  if (nfcAdapter == null) {
+      return;
+  }
+  nfcAdapter.disableForegroundDispatch(this);
+}
+
+@Override
+protected void onResume() {
+  super.onResume();
+  NfcAdapter nfcAdapter = getNfcAdapter();
+  if (nfcAdapter == null) {
+      return;
+  }
+  IntentFilter filter = new IntentFilter();
+  // 如果在这里添加intent-filter, 则AndroidManifest.xml中可以不添加
+  filter.addAction(NfcAdapter.ACTION_TAG_DISCOVERED);
+  filter.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+  filter.addAction(NfcAdapter.ACTION_TECH_DISCOVERED);
+  PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+  nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{filter}, NfcUtils.techList);
+}
+
 String mimeStr = "text/xxx"; // 这里可以自定义, 这里的mimeStr就是AndroidManifest.xml文件中的<data android:mimeType="text/xxx" />
 short TNF = NdefRecord.TNF_MIME_MEDIA;
 private String nfcReader(Tag tag) {
