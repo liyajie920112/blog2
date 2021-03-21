@@ -8,7 +8,7 @@ tags:
 
 > 效果如下
 
-![20200603174423](http://image.liyajie.cn/blog/20200603174423.png)
+![20210321214444](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214444.png)
 
 <!-- more -->
 ## 画直线
@@ -57,7 +57,7 @@ this.map.addLayer({
 3. 通过下图来分析
 :::
 
-![20200603202120](http://image.liyajie.cn/blog/20200603202120.png)
+![20210321214523](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214523.png)
 
 ### 转换为js代码
 
@@ -92,7 +92,7 @@ function calcCenterVertexPoint (start, end) {
 
 贝塞尔曲线就是根据图中的(x1, y1), 目标点, (x2, y2)这三个点生成的, 下图中: 北京(x1, y1), 宜宾(x2, y2), 三角形的顶点: 目标点
 
-![20200603202702](http://image.liyajie.cn/blog/20200603202702.png)
+![20210321214548](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210321214548.png)
 
 生成曲线的算法
 
