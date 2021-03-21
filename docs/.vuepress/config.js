@@ -4,7 +4,6 @@ const { nav, navMetadata } = require("./utils/nav");
 const copyCodePlugin = require("./plugins/copy-code/index");
 const pageTagsPlugin = require("./plugins/page-tags/index");
 module.exports = (ctx) => {
-  console.log("c", c);
   return {
     base: "/",
     dest: "dist",
