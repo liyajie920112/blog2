@@ -1,44 +1,26 @@
 <template>
-  <main
-    class="home"
-    aria-labelledby="main-title"
-  >
+  <main class="home" aria-labelledby="main-title">
     <header class="hero">
       <img
         v-if="data.heroImage"
         :src="$withBase(data.heroImage)"
         :alt="data.heroAlt || 'hero'"
-      >
+      />
 
-      <h1
-        v-if="data.heroText !== null"
-        id="main-title"
-      >
-        {{ data.heroText || $title || 'Hello' }}
+      <h1 v-if="data.heroText !== null" id="main-title">
+        {{ data.heroText || $title || "Hello" }}
       </h1>
 
-      <p
-        v-if="data.tagline !== null"
-        class="description"
-      >
-        {{ data.tagline || $description || 'Welcome to your VuePress site' }}
+      <p v-if="data.tagline !== null" class="description">
+        {{ data.tagline || $description || "Welcome to your VuePress site" }}
       </p>
 
-      <p
-        v-if="data.actionText && data.actionLink"
-        class="action"
-      >
-        <NavLink
-          class="action-button"
-          :item="actionLink"
-        />
+      <p v-if="data.actionText && data.actionLink" class="action">
+        <NavLink class="action-button" :item="actionLink" />
       </p>
     </header>
 
-    <div
-      v-if="data.features && data.features.length"
-      class="features"
-    >
+    <div v-if="data.features && data.features.length" class="features">
       <div
         v-for="(feature, index) in data.features"
         :key="index"
@@ -51,39 +33,45 @@
 
     <Content class="theme-default-content custom" />
 
-    <div
-      v-if="data.footer"
-      class="footer"
-    >
+    <div v-if="data.footer" class="footer">
       {{ data.footer }}
     </div>
     <div class="footer" v-if="data.footerLinkText">
-      {{ data.footerLinkPreText }}<a :href="data.footerLink" target="_blank">{{data.footerLinkText}}</a>
+      <div class="record">
+        <a :href="data.footerLink" target="_blank"
+          >{{ data.footerLinkPreText }} {{ data.footerLinkText }}</a
+        >
+      </div>
+      <div class="upyun" v-if="data.upyun">
+        <a :href="data.upyun.upyunLink" target="_blank">
+          {{ data.upyun.upyunText }} <img :src="data.upyun.upyunImage" alt="" />提供云存储服务</a
+        >
+      </div>
     </div>
   </main>
 </template>
 
 <script>
-import NavLink from '@theme/components/NavLink.vue'
+import NavLink from "@theme/components/NavLink.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
 
   components: { NavLink },
 
   computed: {
-    data () {
-      return this.$page.frontmatter
+    data() {
+      return this.$page.frontmatter;
     },
 
-    actionLink () {
+    actionLink() {
       return {
         link: this.data.actionLink,
-        text: this.data.actionText
-      }
-    }
-  }
-}
+        text: this.data.actionText,
+      };
+    },
+  },
+};
 </script>
 
 <style lang="stylus">
@@ -146,10 +134,18 @@ export default {
     bottom 0
     left 0
     width 100%
-    padding 2.5rem 0
+    padding 2rem 0
     border-top 1px solid $borderColor
     text-align center
     color lighten($textColor, 25%)
+    .upyun
+      a
+        display flex
+        align-items center
+        justify-content center
+        margin-top 6px
+        img
+          height 44px
 
 @media (max-width: $MQMobile)
   .home
