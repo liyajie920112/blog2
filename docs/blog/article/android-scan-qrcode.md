@@ -25,6 +25,8 @@ dependencies {
 }
 ```
 
+<!-- more -->
+
 3. 注意点
 > 最新的`zxing-android-embedded`支持的`minSdkVersion`为 24, 如果使用的`minSdkVersion<24`, 请参考[https://github.com/journeyapps/zxing-android-embedded](https://github.com/journeyapps/zxing-android-embedded)
 
