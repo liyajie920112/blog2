@@ -1,3 +1,5 @@
-module.exports = {
-  extend: '@vuepress/theme-default'
+module.exports = (c, ctx) => {
+  return {
+    extend: '@vuepress/theme-default'
+  }
 }

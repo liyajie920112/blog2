@@ -3,6 +3,7 @@ const { resolve } = require("path");
 const { nav, navMetadata } = require("./utils/nav");
 const copyCodePlugin = require("./plugins/copy-code/index");
 const pageTagsPlugin = require("./plugins/page-tags/index");
+const { formatDate } = require("./utils")
 module.exports = (ctx) => {
   return {
     base: "/",
@@ -34,6 +35,7 @@ module.exports = (ctx) => {
     themeConfig: {
       logo: "/images/logo.jpg",
       useUpyun: true,
+      lastUpdated: "LiYajie 发布于",
       locales: {
         "/": {
           lang: "zh-CN",
@@ -56,6 +58,14 @@ module.exports = (ctx) => {
     plugins: [
       [copyCodePlugin],
       [pageTagsPlugin],
+      [
+        "@vuepress/last-updated",
+        {
+          transformer: (timestamp, lang) => {
+            return formatDate(timestamp);
+          },
+        },
+      ],
       ["@vuepress/back-to-top"],
       [
         "@vuepress/google-analytics",
