@@ -32,7 +32,7 @@ TimerTask task = new TimerTask() {
   }
 };
 Timer timer = new Timer();
-timer.schedule(task, 3000);//3秒后执行TimeTask的run方法
+timer.schedule(task, 3000); // 3秒后执行TimeTask的run方法
 ```
 
 ## 3.使用Handler的postDelayed方法实现延时操作
