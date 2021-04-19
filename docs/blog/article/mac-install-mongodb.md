@@ -1,8 +1,8 @@
 ---
+title: Mac通过brew安装mongodb4.2
 tags:
   - mongodb
 ---
-# Mac通过brew安装mongodb4.2
 
 ## 1. 第一步
 

@@ -1,9 +1,9 @@
 ---
+title: 复制内容到剪贴板功能
 tags:
   - js
   - css
 ---
-# 复制内容到剪贴板功能
 
 1. 创建textarea/input
 2. 把需要复制的内容赋值给texarea/input

@@ -1,10 +1,9 @@
 ---
+title: Android集成Sentry
 tags:
   - android
   - sentry
 ---
-
-# Android集成Sentry
 
 ## 1. 添加依赖
 
@@ -28,6 +27,8 @@ dependencies {
     implementation 'io.sentry:sentry-android:4.3.0'
 }
 ```
+
+<!-- more -->
 
 ## 2. 配置AndroidManifest.xml
 

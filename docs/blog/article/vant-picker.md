@@ -1,9 +1,9 @@
 ---
+title: vant picker实现无限级联选择
 tags:
   - vant
   - js
 ---
-# vant picker实现无限级联选择
 
 :::warning 注意
 vant 的picker 从2.4.5之后可以支持columns的children, 用来实现级联选择

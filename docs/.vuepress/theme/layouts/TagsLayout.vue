@@ -150,6 +150,9 @@ export default {
         }
       });
       allTags = allTags.join(",").split(",");
+      allTags = allTags.map(tag => {
+        return tag.toLowerCase();
+      })
       let flatTags = Array.from(new Set(allTags));
       let ts = flatTags.reduce((res, v) => {
         let o = {};

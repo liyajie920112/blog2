@@ -1,10 +1,8 @@
 ---
+title: Android 延迟执行的方法
 tags:
   - android
 ---
-
-# Android 延迟执行的方法
-
 ## 1.使用线程的休眠实现延时操作
 
 ```java
@@ -19,6 +17,8 @@ new Thread() {
     }
 }.start();
 ```
+
+<!-- more -->
 
 ## 2.使用TimerTask实现延时操作
 

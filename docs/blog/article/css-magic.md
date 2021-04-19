@@ -1,9 +1,9 @@
 ---
+title: CSS魔法
 tags:
     - css
 ---
 
-# CSS魔法
 ## 01. CSS loading...
 
 ```html

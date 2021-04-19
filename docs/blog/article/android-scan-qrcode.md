@@ -1,10 +1,9 @@
 ---
+title: Android 基于zxing-android-embedded开发一个识别二维码的功能
 tags:
   - android
   - Scan QRCode
 ---
-
-# Android 基于zxing-android-embedded开发一个识别二维码的功能
 
 用到的第三方工具包[zxing-android-embedded](https://github.com/journeyapps/zxing-android-embedded)
 

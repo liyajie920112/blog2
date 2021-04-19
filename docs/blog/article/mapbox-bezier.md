@@ -1,10 +1,9 @@
 ---
+title: mapbox-gl画一条贝塞尔曲线
 tags:
   - mapboxjs
   - js
 ---
-
-# mapbox-gl画一条贝塞尔曲线
 
 > 效果如下
 

@@ -1,11 +1,11 @@
 ---
+title: mapbox-gl实现轨迹回放
 date: 2020-04-23
 author: LiYajie
 tags:
   - 轨迹回放
   - mapboxjs
 ---
-# mapbox-gl实现轨迹回放
 
 <iframe
   src="https://codesandbox.io/embed/replaying-history-runing-data-15k1f?codemirror=1&hidenavigation=1&fontsize=14&&theme=dark&hidedevtools=1&view=preview"

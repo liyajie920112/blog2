@@ -1,10 +1,9 @@
 ---
+title: Centos安装部署Nodejs项目
 tags: 
     - nodejs
     - centos
 ---
-
-# Centos安装部署Nodejs项目
 
 ## Centos需要安装的软件
 

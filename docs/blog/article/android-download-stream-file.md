@@ -1,8 +1,8 @@
 ---
+title: Android通过下载器下载文件流
 tags:
   - android
 ---
-# android通过下载器下载文件流
 
 ```java
 // 下载方法

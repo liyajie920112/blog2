@@ -1,10 +1,10 @@
 ---
+title: JS继承
 author: LiYajie
 tags:
   - js
 ---
 
-# JS继承
 
 :::tip
 什么是继承?

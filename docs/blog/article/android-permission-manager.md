@@ -1,9 +1,8 @@
 ---
+title: Android申请系统权限
 tags:
   - Android
 ---
-
-# Android申请系统权限
 
 > Android 6.0系统一个最大的特性就是动态权限申请。在android 6.0以前，我们APP开发中对权限的处理是直接在AndroidManifest文件中配置即可；这种情况在android 6.0之后就改变了，对于一些涉及用户隐私的危险权限，我们不但需要在AndroidManifest文件中进行配置，还需要在使用到该权限的地方使用API来对权限进行动态申请.
 
