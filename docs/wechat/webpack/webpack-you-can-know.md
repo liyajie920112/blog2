@@ -17,10 +17,6 @@ tags:
 
 当面试官问你是否了解`webpack`的时候，或许你可以说出一串耳熟能详的`webpack loader`和`plugin`的名字，甚至还能说出插件和一系列配置做按需加载和打包优化，那你是否了解他的运行机制以及实现原理呢，那我们今天就一起探索`webpack`的能力边界，尝试了解`webpack`的一些实现流程和原理，拒做`API`工程师。
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
-
-CgqCHl6pSFmAC5UzAAEwx63IBwE024.png
-
 ### 你知道webpack的作用是什么吗？
 
 从官网上的描述我们其实不难理解，`webpack`的作用其实有以下几点：
