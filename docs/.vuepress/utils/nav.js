@@ -10,8 +10,14 @@ const navMetadata = [
     ],
   },
   {
-    text: 'TypeScript',
-    link: '/typescript/',
+    text: 'WeChat',
+    link: '/wechat/',
+    sideDirList: [
+      {
+        title: 'webpack',
+        dir: '/wechat/webpack'
+      }
+    ]
   },
   {
     text: 'Vue',

@@ -6,7 +6,8 @@
       <div class="page-title">
         <h1>{{ $page.title }}</h1>
         <div class="page-desc">
-          <span class="page-author">LiYajie: {{ $page.lastUpdated }}</span>
+          <span class="page-author" v-if="$page.frontmatter.quote">{{ $page.frontmatter.quote }}</span>
+          <span class="page-author" v-else>{{ $page.author || 'LiYajie' }}: {{ $page.lastUpdated }}</span>
           <span class="page-tags">
             <router-link
               class="page-tag"
@@ -66,9 +67,6 @@ export default {
         shadow: `rgba(${r},${g},${b},.5)`,
       }
     },
-  },
-  mounted() {
-    console.log(this.$page);
   }
 }
 </script>
