@@ -9,6 +9,9 @@ tags:
 Google提供的最新方法可以参考这里
 - [https://developer.android.com/training/location/retrieve-current](https://developer.android.com/training/location/retrieve-current)
 
+Medium参考
+- [https://droidbyme.medium.com/get-current-location-using-fusedlocationproviderclient-in-android-cb7ebf5ab88e](https://droidbyme.medium.com/get-current-location-using-fusedlocationproviderclient-in-android-cb7ebf5ab88e)
+
 <!-- more -->
 
 ## 位置信息工具类
