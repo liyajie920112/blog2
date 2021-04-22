@@ -16,134 +16,208 @@ Medium参考
 
 ## 位置信息工具类
 
+> `LocationManager` 主要使用的是该类
+
 ```java
-// LocationUtils.java工具类
+public class LocationFinder extends Service implements LocationListener {
+    Context context;
+    boolean isGPSEnabled = false;
+    // flag for network status
+    boolean isNetworkEnabled = false;
+    // flag for GPS status
+    boolean canGetLocation = false;
+    Location location; // location
+    double latitude; // latitude
+    double longitude; // longitude
+    // The minimum distance to change Updates in meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 200 * 10 * 1; // 2 seconds
+    // Declaring a Location Manager
+    protected LocationManager locationManager;
 
-public class LocationUtils {
-
-  private Context mContext;
-  private LocationManager locationManager;
-  private OnLocationResultListener mOnLocationListener;
-
-  private LocationUtils(Context context) {
-    this.mContext = context;
-  }
-
-  public static LocationUtils getInstance(Context context) {
-    if (instance == null) {
-        instance = new LocationUtils(context);
-    }
-    return instance;
-  }
-
-  public String getLngLat(OnLocationResultListener onLocationResultListener) {
-    mOnLocationListener = onLocationResultListener;
-    // 根据定位服务获取locationManager
-    locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-    //获取所有可用的位置提供器
-    List<String> providers = locationManager.getProviders(true);
-    // 判断是否开启了GPS
-    if (providers.contains(LocationManager.GPS_PROVIDER)) {
-      //如果是GPS
-      locationProvider = LocationManager.GPS_PROVIDER;
-    } else {
-      // 如果没有开启定位功能, 跳转到开启定位的页面
-      SystemUtils.IsToSet((Activity) mContext, Settings.ACTION_LOCATION_SOURCE_SETTINGS, "定位未开启", "您的定位服务未打开, 无法使用该功能, 请先打开您的定位", false);
-      return null;
-    }
-    if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      // 如果没有开启权限, 则跳转到开启权限页面
-      SystemUtils.IsToSet((Activity) mContext, "", "位置权限未开启", "您的位置权限未打开, 无法使用该功能, 请先授权", true);
-      return null;
+    public LocationFinder(Context context) {
+        this.context = context;
+        getLocation();
     }
 
-    // locationManager.getLastKnownLocation该方法需要检查权限是否开启后才能使用
-    // Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with checkPermission) or explicitly handle a potential SecurityException
-    // 获取位置信息
-    Location location = locationManager.getLastKnownLocation(locationProvider);
-    // location如果没有更新过位置信息可能或返回null, 所以我们需要请求位置更新
-    if (mOnLocationListener != null) {
-      // 执行回调
-      mOnLocationListener.onLocationResult(location);
-    }
-    //监视地理位置变化, 5s更新一次, 最小距离为1m
-    locationManager.requestLocationUpdates(locationProvider, 5000, 1, locationListener);
-    return "";
-  }
-
-  public LocationListener locationListener = new LocationListener() {
-
-        // Provider的状态在可用、暂时不可用和无服务三个状态直接切换时触发此函数
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        // Provider被enable时触发此函数，比如GPS被打开
-        @Override
-        public void onProviderEnabled(String provider) {
-            if (provider == LocationManager.GPS_PROVIDER) {
-                //监视地理位置变化
-                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 1, locationListener);
+    public Location getLocation() {
+        try {
+            locationManager = (LocationManager) context
+                    .getSystemService(LOCATION_SERVICE);
+// getting GPS status
+            isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+// getting network status
+            isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+                // Log.e(“Network-GPS”, “Disable”);
+            } else {
+                this.canGetLocation = true;
+                // First get location from Network Provider
+                if (isNetworkEnabled) {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return null;
+                    }
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    // Log.e(“Network”, “Network”);
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+                } else
+                    // if GPS Enabled get lat/long using GPS Services
+                    if (isGPSEnabled) {
+                        if (location == null) {
+                            locationManager.requestLocationUpdates(
+                                    LocationManager.GPS_PROVIDER,
+                                    MIN_TIME_BW_UPDATES,
+                                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                            //Log.e(“GPS Enabled”, “GPS Enabled”);
+                            if (locationManager != null) {
+                                location = locationManager
+                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                if (location != null) {
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
+                                }
+                            }
+                        }
+                    }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return location;
+    }
 
-        // Provider被disable时触发此函数，比如GPS被关闭
-        @Override
-        public void onProviderDisabled(String provider) {
-            if (provider == LocationManager.GPS_PROVIDER) {
-                removeListener();
+    public double getLatitude() {
+        if (location != null) {
+            latitude = location.getLatitude();
+        }
+        return latitude;
+    }
+
+    public double getLongitude() {
+        if (location != null) {
+            longitude = location.getLongitude();
+        }
+        return longitude;
+    }
+
+    public boolean canGetLocation() {
+        return this.canGetLocation;
+    }
+
+    public void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("提示");
+        alertDialog.setMessage("GPS未打开, 请开启后使用");
+        alertDialog.setPositiveButton("设置", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(intent);
             }
-        }
-
-        //当坐标改变时触发此函数，如果Provider传进相同的坐标，它就不会被触发
-        @Override
-        public void onLocationChanged(Location location) {
-            if (mOnLocationListener != null) {
-                mOnLocationListener.OnLocationChange(location);
+        });
+        alertDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
-        }
-    };
+        });
+        alertDialog.show();
+    }
 
-  // 移除监听
-  public void removeListener() {
-    locationManager.removeUpdates(locationListener);
-  }
+    /**
+     * Return the communication channel to the service.  May return null if
+     * clients can not bind to the service.  The returned
+     * {@link IBinder} is usually for a complex interface
+     * that has been <a href="{@docRoot}guide/components/aidl.html">described using
+     * aidl</a>.
+     *
+     * <p><em>Note that unlike other application components, calls on to the
+     * IBinder interface returned here may not happen on the main thread
+     * of the process</em>.  More information about the main thread can be found in
+     * <a href="{@docRoot}guide/topics/fundamentals/processes-and-threads.html">Processes and
+     * Threads</a>.</p>
+     *
+     * @param intent The Intent that was used to bind to this service,
+     *               as given to {@link Context#bindService
+     *               Context.bindService}.  Note that any extras that were included with
+     *               the Intent at that point will <em>not</em> be seen here.
+     * @return Return an IBinder through which clients can call on to the
+     * service.
+     */
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
-  // 位置回调
-  public interface OnLocationResultListener {
-    void onLocationResult(Location location);
-    void OnLocationChange(Location location);
-  }
+    /**
+     * Called when the location has changed.
+     *
+     * <p> There are no restrictions on the use of the supplied Location object.
+     *
+     * @param location The new location, as a Location object.
+     */
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    /**
+     * Called when the provider is enabled by the user.
+     *
+     * @param provider the name of the location provider associated with this
+     *                 update.
+     */
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    /**
+     * Called when the provider is disabled by the user. If requestLocationUpdates
+     * is called on an already disabled provider, this method is called
+     * immediately.
+     *
+     * @param provider the name of the location provider associated with this
+     *                 update.
+     */
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }
 ```
 
-## 使用
+## 使用方法
 
 ```java
-public void getLocation() {
-  getLocationUtils().getLngAndLat(new LocationUtils.OnLocationResultListener() {
-    @Override
-    public void onLocationResult(Location location) {
-      if (location == null) {
-          // 没有获取到位置信息
-          return;
-      }
-      double lat = location.getLatitude();
-      double lon = location.getLongitude();
-      String locationStr = lon + "," + lat;
-      String timestamp = System.currentTimeMillis() + "";
-      // 获取到位置信息后
-      Log.d(TAG, "location: " + locationStr + "-" + System.currentTimeMillis());
-    }
-
-    @Override
-    public void OnLocationChange(Location location) {
-      Log.d(TAG, "OnLocationChange: " + location.getLongitude() + "-" + System.currentTimeMillis());
-    }
-  });
+LocationFinder finder;
+public void testLocation() {
+  double longitude = 0.0, latitude = 0.0;
+  finder = new LocationFinder(this);
+  if (finder.canGetLocation()) {
+      latitude = finder.getLatitude();
+      longitude = finder.getLongitude();
+      Toast.makeText(this, "lng-lat" + longitude + " — " + latitude, Toast.LENGTH_LONG).show();
+  } else {
+      finder.showSettingsAlert();
+  }
 }
 ```
