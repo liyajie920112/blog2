@@ -4,6 +4,8 @@ tags:
   - android
 ---
 
+[完整Demo Github](https://github.com/liyajie920112/android-demo/tree/main/TestAutoUpdate)
+
 1. 使用OkHttpUtils来实现接口请求
 2. 使用Gson实现反序列化解析或者fastjson也可以, 看自己需求
 
@@ -12,6 +14,8 @@ tags:
 
 方案二: 根据蒲公英的api自己版本比对
 :::
+
+<!-- more -->
 
 > 方案一可以按照蒲公英官网文档来执行
 
