@@ -5,6 +5,11 @@ tags:
 ---
 
 [完整Demo Github](https://github.com/liyajie920112/android-demo/tree/main/TestAutoUpdate)
+[测试App下载地址](https://www.pgyer.com/68942cb39ae2d1cc426f816ca10d02e8)
+
+:::tip
+先下载一个1.3版本的, 然后更新为最新版本
+:::
 
 1. 使用OkHttpUtils来实现接口请求
 2. 使用Gson实现反序列化解析或者fastjson也可以, 看自己需求
