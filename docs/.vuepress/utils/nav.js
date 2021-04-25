@@ -16,6 +16,10 @@ const navMetadata = [
       {
         title: 'webpack',
         dir: '/wechat/webpack'
+      },
+      {
+        title: 'css',
+        dir: '/wechat/css'
       }
     ]
   },
