@@ -8,15 +8,17 @@ tags:
 ---
 在实际 Web 开发过程中，总会遇到各种各样的布局。有公司同事问我这样一种布局有没有什么好的实现方式，就是一种在活动充值页非常普遍的优惠券效果，如下
 
-<img width="657" height="246" src=":/627f3d5d265f4b6f8c6ac228d300cf71"/>
+![](https://mmbiz.qpic.cn/mmbiz_png/HGCZWzWIk2lc7lsskuJx8vuZKTnVA0xvAVLdtAHDzZMmYjee30q8eQsOtOrZXgaRTbQezlxebpU2hiaEiaO3Wiauw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+<!-- more -->
 
 还有这样的
 
-<img width="657" height="246" src=":/d21e630e07d84b0c9313067a328af3db"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426142919.webp)
 
 考虑到各种可能出现的场景，抽象出以下几种案例，一起来看看实现吧
 
-<img width="657" height="403" src=":/57d2cccb44de493685d989342bb035da"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143450.webp)
 
 ## 一、最佳实现方式
 
@@ -24,15 +26,21 @@ tags:
 
 基本语法很简单，和**background**的语法基本一致
 
-```
-`.content{` `-webkit-mask: '遮罩图片' ;``}``.content{` `-webkit-mask: '遮罩图片' [position] / [size] ;``}`
+```css
+.content{
+  -webkit-mask: '遮罩图片' ;
+}
+/*完整语法*/
+.content{
+  -webkit-mask: '遮罩图片' [position] / [size] ;
+}
 ```
 
 这里的遮罩图片和背景的使用方式基本一致，可以是**PNG图片**、**SVG图片**、也可以是**渐变绘制**的图片，同时也支持**多图片叠加**。
 
 遮罩的原理很简单，**最终效果只显示不透明的部分，透明部分将不可见，半透明类推**
 
-<img width="657" height="152" src=":/df30cd89e44b4f8583b6c40bc6212f41"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426100453.webp)
 
 > 事实上，除了根据透明度（Alpha）来作为遮罩条件，还可以通过亮度（luminance）来决定，比如白色表示隐藏，黑色表示可见。不过目前只有 Firefox 支持
 
@@ -42,11 +50,13 @@ tags:
 
 优惠券大多有一个很明显的特点，就是**内凹圆角**。提到圆角，很容易想到radial-gradient\[3\]。这个语法有点复杂，记不住没关系，可以看看张老师的这篇10个demo示例学会CSS3 radial-gradient径向渐变\[4\]。
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at left center, transparent 20px, red 20px);` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at left center, transparent 20px, red 20px); 
+}
 ```
 
-<img width="657" height="206" src=":/7f8f0a866e264c08aa5f8fdd5208fd24"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143612.webp)
 
 这样就绘制了一个半径为 20px 的透明的圆，不过代码层面还有很多优化的空间。
 
@@ -54,8 +64,10 @@ tags:
 
 进一步简化就得到了
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0);` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0); 
+}
 ```
 
 不错，又少了好几个B的流量~ 可以查看在线实例codepen 优惠券实现1\[5\]
@@ -64,29 +76,36 @@ tags:
 
 上面是一个最基本的内凹圆角效果，现在来实现下面几种布局，比如两个半圆的，根据上面的例子，再复制一个圆不就可以了？改一下定位的方向
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0), radial-gradient(circle at right, #0000 20px, red 0);` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0), radial-gradient(circle at right, #0000 20px, red 0); 
+}
 ```
 
-<img width="657" height="206" src=":/ec17a8fae5874fe195ab3f2599dfed67"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143752.webp)
 
 这时发现一个圆都没有了。原因其实很简单，如下演示，**两层背景相互叠加，导致整块背景都成了不透明的**，所以 mask 效果表现为全部可见。
 
-<img width="657" height="331" src=":/28023a4e23ea4d8ebfd4dac896ba6b3a"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143810.gif)
 
 解决方式有2个，分别是：
 
 1.**把两个凹角的地方错开，这里可以通过修改尺寸和位置，同时还需要禁止平铺**
 
-```
-`.content{``-webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0), radial-gradient(circle at right, #0000 20px, red 0);``-webkit-mask-size: 51%;` `-webkit-mask-position: 0, 100%;` `-webkit-mask-repeat: no-repeat;``}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0), radial-gradient(circle at right, #0000 20px, red 0);
+  -webkit-mask-size: 51%; /*避免出现缝隙*/
+  -webkit-mask-position: 0, 100%; /*一个居左一个居右*/
+  -webkit-mask-repeat: no-repeat;
+}
 ```
 
-<img width="657" height="205" src=":/e2256c7eb50a4ec59517a637893fa55e"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143909.webp)
 
 动态演示如下，这样就不会互相覆盖了
 
-<img width="657" height="331" src=":/648192cac84f4839a8683bc0598f440d"/>
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143927.gif)
 
 可以查看在线实例codepen 优惠券实现2
 
@@ -94,49 +113,71 @@ tags:
 
 标准属性下**mask-composite**有 4 个属性值（Firefox支持）
 
-```
-`mask-composite: add;` `mask-composite: subtract;` `mask-composite: intersect;` `mask-composite: exclude;` 
+```css
+/* Keyword values */
+mask-composite: add; /* 叠加（默认） */
+mask-composite: subtract; /* 减去，排除掉上层的区域 */
+mask-composite: intersect; /* 相交，只显示重合的地方 */
+mask-composite: exclude; /* 排除，只显示不重合的地方 */
 ```
 
 这个可能有些不好理解，其实可以参考一些图形软件的形状合成操作，比如 photoshop
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144139.webp)
 
 -webkit-mask-composite\[6\]与标准下的值有所不同，属性值非常多，看下面
 
-```
-`-webkit-mask-composite: clear;` `-webkit-mask-composite: copy;` `-webkit-mask-composite: source-over;` `-webkit-mask-composite: source-in;` `-webkit-mask-composite: source-out;` `-webkit-mask-composite: source-atop;``-webkit-mask-composite: destination-over;``-webkit-mask-composite: destination-in;` `-webkit-mask-composite: destination-out;``-webkit-mask-composite: destination-atop;``-webkit-mask-composite: xor;` 
+```css
+-webkit-mask-composite: clear; /*清除，不显示任何遮罩*/
+-webkit-mask-composite: copy; /*只显示上方遮罩，不显示下方遮罩*/
+-webkit-mask-composite: source-over; 
+-webkit-mask-composite: source-in; /*只显示重合的地方*/
+-webkit-mask-composite: source-out; /*只显示上方遮罩，重合的地方不显示*/
+-webkit-mask-composite: source-atop;
+-webkit-mask-composite: destination-over;
+-webkit-mask-composite: destination-in; /*只显示重合的地方*/
+-webkit-mask-composite: destination-out;/*只显示下方遮罩，重合的地方不显示*/
+-webkit-mask-composite: destination-atop;
+-webkit-mask-composite: xor; /*只显示不重合的地方*/
 ```
 
 是不是一下就懵了？不用慌，可以看到上面有几个值是**source-***，还有几个是**destination-***开头的，**source 代表新内容**，也就是上面绘制的图层，**destination 代表元内容**，也就是下面绘制的图层（**在CSS中，前面的图层会覆盖后面的图层**），这里的属性值其实是借用了Canvas 中的概念，具体可以查看CanvasRenderingContext2D.globalComposite\[7\]
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144350.webp)
 
 记不住没关系，实际开发可以逐一试验\[\\捂脸\]。具体差异可以查看codepen -webkit-mask-composite 属性值演示\[8\]
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144408.gif)
 
 了解这个属性后，上面的叠加问题就很简单了，设置**只显示重合的地方**就行了
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0), radial-gradient(circle at right, #0000 20px, red 0);`` -webkit-mask-composite: source-in | destination-in ; ``mask-composite: intersect;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 0, #0000 20px, red 0), radial-gradient(circle at right, #0000 20px, red 0); 
+  -webkit-mask-composite: source-in | destination-in ; /*chrome*/
+  mask-composite: intersect; /*Firefox*/
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426143909.webp)
 
 动态演示如下，这样只会显示**互相重合的地方**
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144530.gif)
 
 可以查看在线实例codepen 优惠券实现3\[9\]
 
 2个圆角的实现了，4个的就很容易了，画4个圆就行，同样利用遮罩合成可以轻易实现
 
-```
-`content{` `-webkit-mask: radial-gradient(circle at 0 0, #0000 20px, red 0), radial-gradient(circle at right 0, #0000 20px, red 0), radial-gradient(circle at 0 100%, #0000 20px, red 0), radial-gradient(circle at right 100%, #0000 20px, red 0);`` -webkit-mask-composite: source-in | destination-in ; ``mask-composite: intersect;` `}`
+```css
+content{
+  -webkit-mask: radial-gradient(circle at 0 0, #0000 20px, red 0), radial-gradient(circle at right 0, #0000 20px, red 0), radial-gradient(circle at 0 100%, #0000 20px, red 0), radial-gradient(circle at right 100%, #0000 20px, red 0); /*4个角落各放一个圆*/
+  -webkit-mask-composite: source-in | destination-in ; /*chrome*/
+  mask-composite: intersect; /*Firefox*/
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144549.webp)
 
 可以查看在线实例codepen 优惠券实现4\[10\]
 
@@ -146,67 +187,99 @@ tags:
 
 1.**画一个左中的靠边的透明圆**
 
-```
-`.content{``-webkit-mask: radial-gradient(circle at 20px, #0000 20px, red 0);` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 20px, #0000 20px, red 0); 
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144608.webp)
 
 2.**向左平移自身的一半**
 
-```
-`.content{``-webkit-mask: radial-gradient(circle at 20px, #0000 20px, red 0);` `-webkit-mask-position: -20px``}``.content{``-webkit-mask: radial-gradient(circle at 20px, #0000 20px, red 0) -20px;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 20px, #0000 20px, red 0); 
+  -webkit-mask-position: -20px
+}
+/*也可以缩写为*/
+.content{
+  -webkit-mask: radial-gradient(circle at 20px, #0000 20px, red 0) -20px; 
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144623.webp)
 
 效果就出来了，是不是很神奇？其实就是利用到了默认的**repeat特性**，这里用一张动图就能明白了
 
 > 下面**红色边框内表示视区范围**，也就是最终的效果，这里为了演示，把视线之外的**平铺**做了半透明处理，移动表示 position 改变的过程
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144641.gif)
 
 可以查看在线实例codepen 优惠券实现5\[11\]
 
 同样原理，4个圆角也可以采用这种方式实现
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0);`` -webkit-mask-position: -20px -20px;``}``.content{` `-webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0); 
+  -webkit-mask-position: -20px -20px;
+}
+/*也可以缩写为*/
+.content{
+  -webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px; 
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144702.webp)
 
 实现原理演示如下
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144717.gif)
 
 可以查看在线实例codepen 优惠券实现6\[12\]
 
 6个圆角就需要改一下平铺尺寸了。
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0);`` -webkit-mask-position: -20px -20px;` `-webkit-mask-size: 50%;``}``.content{` `-webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0); 
+  -webkit-mask-position: -20px -20px;
+  -webkit-mask-size: 50%;
+}
+/*也可以缩写为*/
+.content{
+  -webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%; 
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144746.webp)
 
 实现原理演示如下
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144801.gif)
 
 可以查看在线实例codepen 优惠券实现7\[13\]
 
 如果继续缩小背景图的尺寸，还可以得到最后的效果
 
-```
-`.content{` `-webkit-mask: radial-gradient(circle at 10px, #0000 10px, red 0);`` -webkit-mask-position: -10px;` `-webkit-mask-size: 100% 30px;``}``.content{` `-webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -10px / 100% 30px;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 10px, #0000 10px, red 0); 
+  -webkit-mask-position: -10px;
+  -webkit-mask-size: 100% 30px;
+}
+/*也可以缩写为*/
+.content{
+  -webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -10px / 100% 30px; 
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144816.webp)
 
 实现原理演示如下，其实就平铺
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144829.gif)
 
 可以查看在线实例codepen 优惠券实现8\[14\]
 
@@ -216,33 +289,44 @@ tags:
 
 1.**先把上面的实现拿过来**
 
-```
-`.content{``-webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%; 
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144746.webp)
 
 1.**直接在这个基础上打一排小洞**
 
-```
-`.content{``-webkit-mask: radial-gradient( circle at 50%, red 5px, #0000 0) 50% 50% / 100% 20px, radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%;``-webkit-mask-composite: destination-out;``mask-composite: subtract;` `}`
+```css
+.content{
+  -webkit-mask: radial-gradient( circle at 50%, red 5px, #0000 0) 50% 50% / 100% 20px, radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%;
+  -webkit-mask-composite: destination-out;
+  mask-composite: subtract; /*Firefox*/
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144951.webp)
 
 注意这里用到了**-webkit-mask-composite: destination-out**，**表示减去，只显示下方遮罩，重合的地方不显示**
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145015.gif)
 
 可以查看在线实例codepen 优惠券实现9\[15\]
 
 也可以放在两边，改一下**position**就可以了
 
-```
-`.content{` `-webkit-mask: radial-gradient( circle at 5px, red 5px, #0000 0) -5px 50% / 100% 20px, radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%;` `-webkit-mask-composite: destination-out;` `mask-composite: subtract;` `}`
+```css
+
+.content{
+  -webkit-mask: radial-gradient( circle at 5px, red 5px, #0000 0) -5px 50% / 100% 20px, radial-gradient(circle at 20px 20px, #0000 20px, red 0) -20px -20px / 50%;
+  -webkit-mask-composite: destination-out;
+  mask-composite: subtract; /*Firefox*/
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145040.webp)
 
 可以查看在线实例codepen 优惠券实现10\[16\]
 
@@ -250,65 +334,82 @@ tags:
 
 有些同学觉得**径向渐变太复杂，实在是写不出来，能不能用图片代替呢**？其实也是可行的。这里说的边框遮罩指的是mask-border\[17\], 目前还在 W3C 草案当中，不过有一个替代属性-webkit-mask-box-image\[18\]
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145056.webp)
 
 语法和概念和border-image\[19\]非常相似，关于**border-image**可参考这篇文章border-image 的正确用法\[20\]，这里主要了解一下用法和效果
 
-```
-`.content{` `-webkit-mask-box-image: '遮罩图片' [<top> <right> <bottom> <left> <x-repeat> <y-repeat>]``}`
+```css
+
+.content{
+  -webkit-mask-box-image: '遮罩图片' [<top> <right> <bottom> <left> <x-repeat> <y-repeat>]
+}
 ```
 
 比如有一张这样的图片
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145112.webp)
 
 SVG代码长这样，很多工具都可以导出来，实在不会可以直接找设计同学
 
-```
-<svg xmlns="http://www.w3.org/2000/svg" width="60.031" height="60.031" viewBox="0 0 60.031 60.031"><path d="M40 60.027H20.129A20.065 20.065 0 0 0 .065 40H0V20.127h.065A20.066 20.066 0 0 0 20.131.061v-.065H40v.065a20.065 20.065 0 0 0 20.027 20.064V40A20.063 20.063 0 0 0 40 60.027z" fill-rule="evenodd"/></svg>
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="60.031" height="60.031" viewBox="0 0 60.031 60.031">
+  <path d="M40 60.027H20.129A20.065 20.065 0 0 0 .065 40H0V20.127h.065A20.066 20.066 0 0 0 20.131.061v-.065H40v.065a20.065 20.065 0 0 0 20.027 20.064V40A20.063 20.063 0 0 0 40 60.027z" fill-rule="evenodd"/>
+</svg>
 ```
 
 这里需要转义一下，可借助张老师的SVG在线合并工具\[21\]
 
-```
-`.content{` `-webkit-mask-box-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60.031' height='60.031' viewBox='0 0 60.031 60.031'%3E%3Cpath d='M40 60.027H20.129A20.065 20.065 0 0 0 .065 40H0V20.127h.065A20.066 20.066 0 0 0 20.131.061v-.065H40v.065a20.065 20.065 0 0 0 20.027 20.064V40A20.063 20.063 0 0 0 40 60.027z' fill-rule='evenodd'/%3E%3C/svg%3E") 20;`  `}`
+```css
+.content{
+  -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60.031' height='60.031' viewBox='0 0 60.031 60.031'%3E%3Cpath d='M40 60.027H20.129A20.065 20.065 0 0 0 .065 40H0V20.127h.065A20.066 20.066 0 0 0 20.131.061v-.065H40v.065a20.065 20.065 0 0 0 20.027 20.064V40A20.063 20.063 0 0 0 40 60.027z' fill-rule='evenodd'/%3E%3C/svg%3E") 20;
+  /*这里的20表示四周保留20像素的固定区域，剩余部分平铺或者拉伸*/
+}
 ```
 
 然后就实现了这样一个形状，同样是自适应的
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426144702.webp)
 
 可以查看在线实例codepen -webkit-mask-box-iamge 实现1\[22\]
 
 再比如有一张这样的图片
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145223.webp)
 
-```
-`.content{` `-webkit-mask-box-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60.031' height='60.031' viewBox='0 0 60.031 60.031'%3E%3Cpath d='M55.186 30.158a4.965 4.965 0 0 0 4.841 4.959V40A20.063 20.063 0 0 0 40 60.027H20.129A20.065 20.065 0 0 0 .065 40H0v-4.888c.054 0 .1.016.158.016a4.973 4.973 0 1 0 0-9.945c-.054 0-.1.014-.158.015v-5.074h.065A20.066 20.066 0 0 0 20.131.058v-.065H40v.065a20.065 20.065 0 0 0 20.027 20.064v5.07a4.965 4.965 0 0 0-4.841 4.966z' fill-rule='evenodd'/%3E%3C/svg%3E") 20;``}`
+
+```css
+.content{
+  -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60.031' height='60.031' viewBox='0 0 60.031 60.031'%3E%3Cpath d='M55.186 30.158a4.965 4.965 0 0 0 4.841 4.959V40A20.063 20.063 0 0 0 40 60.027H20.129A20.065 20.065 0 0 0 .065 40H0v-4.888c.054 0 .1.016.158.016a4.973 4.973 0 1 0 0-9.945c-.054 0-.1.014-.158.015v-5.074h.065A20.066 20.066 0 0 0 20.131.058v-.065H40v.065a20.065 20.065 0 0 0 20.027 20.064v5.07a4.965 4.965 0 0 0-4.841 4.966z' fill-rule='evenodd'/%3E%3C/svg%3E") 20;
+}
 ```
 
 可以得到这样一个形状，两侧的半圆被拉伸了
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145242.webp)
 
 这时只需要设置平铺方式**-webkit-mask-box-image-repeat ,**这个和border-image-repeat\[23\]是一样的概念，有以下 4 个值
 
-```
-`-webkit-mask-box-image-repeat: stretch;` `-webkit-mask-box-image-repeat: repeat;` `-webkit-mask-box-image-repeat: round;` `-webkit-mask-box-image-repeat: space;` 
+```css
+-webkit-mask-box-image-repeat: stretch; /*拉伸(默认)，不会平铺*/
+-webkit-mask-box-image-repeat: repeat; /*重复*/
+-webkit-mask-box-image-repeat: round; /*重复，当不能整数次平铺时，根据情况拉伸。*/
+-webkit-mask-box-image-repeat: space; /*重复，当不能整数次平铺时，会用空白间隙填充*/
 ```
 
 几种平铺方式的差异如下
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145414.webp)
 
 这里我们可以采用**round**或者**repeat**
 
-```
-`.content{` `-webkit-mask-box-image: url("...") 20;` `-webkit-mask-box-image-repeat: round;``}`
+```css
+.content{
+  -webkit-mask-box-image: url("...") 20;
+  -webkit-mask-box-image-repeat: round;
+}
 ```
 
-![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg== "null")
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426145257.webp)
 
 可以查看在线实例codepen -webkit-mask-box-iamge 实现2\[24\]
 
