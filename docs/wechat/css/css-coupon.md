@@ -8,7 +8,7 @@ tags:
 ---
 在实际 Web 开发过程中，总会遇到各种各样的布局。有公司同事问我这样一种布局有没有什么好的实现方式，就是一种在活动充值页非常普遍的优惠券效果，如下
 
-![](https://mmbiz.qpic.cn/mmbiz_png/HGCZWzWIk2lc7lsskuJx8vuZKTnVA0xvAVLdtAHDzZMmYjee30q8eQsOtOrZXgaRTbQezlxebpU2hiaEiaO3Wiauw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](https://raw.githubusercontent.com/liyajie920112/images/main/blog/20210426151916.webp)
 
 <!-- more -->
 
