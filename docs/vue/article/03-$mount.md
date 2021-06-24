@@ -14,6 +14,9 @@ if (vm.$options.el) {
 }
 ```
 
+<!-- more -->
+
+
 2. 查找`$mount`声明位置
 
 两个地方: 1. runtime/index.js中, 2. entry-runtime-with-compiler.js中

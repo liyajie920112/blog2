@@ -195,7 +195,7 @@ export default {
       }
       this.tag = item;
       const pages = this.$site.pages.filter((a) =>
-        a.path.startsWith("/blog/article")
+        a.path.includes("/article/")
       );
       this.list = !item.tagv
         ? pages
