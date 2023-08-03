@@ -7,7 +7,7 @@ actionText: Let's go →
 actionLink: /blog/
 footer: ''
 footerLinkText: '鲁ICP备15044337号-1'
-footerLink: 'http://www.beian.miit.gov.cn/'
+footerLink: 'https://beian.miit.gov.cn/'
 footerLinkPreText: '备案号: '
 upyun:
   upyunText: '本网站由'
