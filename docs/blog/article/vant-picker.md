@@ -25,7 +25,7 @@ const citys = {
 
 <!-- more -->
 
-对应的tree.json为[点击这里查看](http://image.liyajie.cn/blog/vant-picker-tree.json)
+对应的tree.json为[点击这里查看](https://raw.githubusercontent.com/liyajie920112/images/main/json/vant-picker-tree.json)
 
 页面结构
 
